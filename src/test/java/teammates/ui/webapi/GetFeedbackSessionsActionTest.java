@@ -86,6 +86,19 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
     }
 
     @Test
+    protected void testExecute_invalidCourseId_shouldFail() {
+        InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
+        loginAsInstructor(instructor1OfCourse1.getGoogleId());
+
+        String[] submissionParam = {
+                Const.ParamsNames.COURSE_ID, "invalid-course-id",
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
+        };
+
+        verifyHttpParameterFailure(submissionParam);
+    }
+
+    @Test
     protected void testExecute_asInstructorWithRecycleBinFlagTrue_shouldReturnAllSoftDeletedSessionsForInstructor() {
         InstructorAttributes instructor2OfCourse1 = typicalBundle.instructors.get("instructor2OfCourse1");
         FeedbackSessionAttributes session1InCourse1 = typicalBundle.feedbackSessions.get("session1InCourse1");
